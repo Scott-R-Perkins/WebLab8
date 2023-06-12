@@ -18,8 +18,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddControllers();
 
 builder.Services.AddAuthorization(options =>{
-  options.AddPolicy("CanAccessAdminPage", policy =>{
+  options.AddPolicy("IsAdmin", policy =>{
     policy.RequireRole("admin");
+    policy.RequireClaim("admin", "true");
   });
 });
 

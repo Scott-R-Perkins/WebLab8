@@ -26,10 +26,10 @@ const router = createBrowserRouter([
         path: '/store',
         element: <Store />
       },
-       {
-         path: '/admin',
-         element: <ShopAdmin />
-       }
+      {
+        path: '/admin',
+        element: <ShopAdmin />
+      }
     ]
   }
 ])
