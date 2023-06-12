@@ -17,13 +17,14 @@ export const Home = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      //Need to use JSON.stringify(loginData) rather than just body: loginData as the backend is C# and can't interpret the object via js
+      //Need to use JSON.stringify(loginData) rather than just body: loginData as the backend is C# and can't interpret the object via js 
       body: JSON.stringify(loginData),
     })
       .then(response => response.json())
       .then(body => {
         if (body.token) {
           //Can check if users token matches one in session storage, if its not there redirect them back to login page
+        
           sessionStorage.setItem("token", body.token)
           setToken(body.token);
         }
