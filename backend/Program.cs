@@ -16,6 +16,13 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddAuthorization(options =>{
+  options.AddPolicy("CanAccessAdminPage", policy =>{
+    policy.RequireRole("admin");
+  });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagOptions =>

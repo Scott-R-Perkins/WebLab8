@@ -1,10 +1,12 @@
 import { Box, Button, Input, Heading } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
+  const navigate = useNavigate();
 
   const HandleLogin = () => {
     const loginData = {
@@ -27,6 +29,7 @@ export const Home = () => {
         
           sessionStorage.setItem("token", body.token)
           setToken(body.token);
+          navigate("/store");
         }
         else { 
           console.log(body.errorMessage); 
