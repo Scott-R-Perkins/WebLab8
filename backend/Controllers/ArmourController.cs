@@ -1,3 +1,4 @@
+using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ArmourController : ControllerBase
@@ -52,6 +55,7 @@ namespace backend.Controllers
         // PUT: api/Armour/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> PutArmour(int id, Armour armour)
         {
             if (id != armour.armourId)
@@ -97,6 +101,7 @@ namespace backend.Controllers
 
         // DELETE: api/Armour/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> DeleteArmour(int id)
         {
             if (_context.Armour == null)

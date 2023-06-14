@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import { } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 import { Root } from './Components/Root'
 import { Home } from './Components/Home';
 import { default as ShopAdmin } from './Components/ShopAdmin';
@@ -12,6 +12,7 @@ import { default as Store } from './Components/Store';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
+
 
 const router = createBrowserRouter([
   {

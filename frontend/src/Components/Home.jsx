@@ -25,8 +25,7 @@ export const Home = () => {
       .then(response => response.json())
       .then(body => {
         if (body.token) {
-          //Can check if users token matches one in session storage, if its not there redirect them back to login page
-        
+          //Can check if users token matches one in session storage, if its not there redirect them back to login page.
           sessionStorage.setItem("token", body.token)
           setToken(body.token);
           navigate("/store");

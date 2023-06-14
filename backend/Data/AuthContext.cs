@@ -9,9 +9,9 @@ public class AuthContext : DbContext
   public DbSet<Group> Groups { get; set; } = default!;
   public DbSet<UserGroup> UserGroups { get; set; } = default!;
   public DbSet<SuperSecureImage> SuperSecureImages { get; set; } = default!;
-  public DbSet<backend.Models.Weapon> Weapon { get; set; } = default!;
-  public DbSet<backend.Models.Armour> Armour { get; set; } = default!;
-  public DbSet<backend.Models.Potion> Potion { get; set; } = default!;
+  public DbSet<Weapon> Weapon { get; set; } = default!;
+  public DbSet<Armour> Armour { get; set; } = default!;
+  public DbSet<Potion> Potion { get; set; } = default!;
   protected override void OnModelCreating(ModelBuilder builder)
   {
     builder.Entity<User>().HasData(new User
