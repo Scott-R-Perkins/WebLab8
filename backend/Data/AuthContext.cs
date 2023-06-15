@@ -17,13 +17,13 @@ public class AuthContext : DbContext
     builder.Entity<User>().HasData(new User
     {
       Id = 1,
-      Email = "admin@admin.admin",
+      Email = "Scott",
       Password = "admin"
     },
     new User
     {
       Id = 2,
-      Email = "user@user.user",
+      Email = "Jeff",
       Password = "user"
     });
 
@@ -98,7 +98,7 @@ public class AuthContext : DbContext
                 imgURL = "yHx2Lc5"
             },
             new Weapon(){
-                weaponId = 4,
+                weaponId = 8,
                 name = "Arcane apprentice staff",
                 attackValue = 50,
                 attackSpeed = 0.75,
@@ -106,10 +106,10 @@ public class AuthContext : DbContext
                 abilityDamageModifier = 290,
                 flavourText = "Staff imbued with a medium amount of arcane power, ideal for students studying the magical arts",
                 price = 700,
-                imgURL = ""
+                imgURL = "Y5tHLvN"
             },
             new Weapon(){
-                weaponId = 5,
+                weaponId = 9,
                 name = "Staff of destructive oblivion",
                 attackValue = 70,
                 attackSpeed = 0.50,
@@ -117,7 +117,7 @@ public class AuthContext : DbContext
                 abilityDamageModifier = 600,
                 flavourText = "Staff imbued with a large amount of destructive fire magic, dangerous in the hands of an unskilled wizard, deadly in the hands of a skilled one.",
                 price = 2900,
-                imgURL = ""
+                imgURL = "mQbqS1A"
             }
         );
         builder.Entity<Armour>().HasData(

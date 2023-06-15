@@ -3,16 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace backend.Migrations
+namespace backend.Data.Migrations
 {
     [DbContext(typeof(AuthContext))]
-    partial class AuthContextModelSnapshot : ModelSnapshot
+    [Migration("20230615024834_finalVersion8")]
+    partial class finalVersion8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -434,7 +437,7 @@ namespace backend.Migrations
                         },
                         new
                         {
-                            weaponId = 8,
+                            weaponId = 4,
                             abilityDamageModifier = 290.0,
                             attackSpeed = 0.75,
                             attackValue = 50,
@@ -446,7 +449,7 @@ namespace backend.Migrations
                         },
                         new
                         {
-                            weaponId = 9,
+                            weaponId = 5,
                             abilityDamageModifier = 600.0,
                             attackSpeed = 0.5,
                             attackValue = 70,

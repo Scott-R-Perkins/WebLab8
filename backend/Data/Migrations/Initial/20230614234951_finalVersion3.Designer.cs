@@ -3,16 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace backend.Migrations
+namespace backend.Data.Migrations.Initial
 {
     [DbContext(typeof(AuthContext))]
-    partial class AuthContextModelSnapshot : ModelSnapshot
+    [Migration("20230614234951_finalVersion3")]
+    partial class finalVersion3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -434,25 +437,25 @@ namespace backend.Migrations
                         },
                         new
                         {
-                            weaponId = 8,
+                            weaponId = 4,
                             abilityDamageModifier = 290.0,
                             attackSpeed = 0.75,
                             attackValue = 50,
                             dps = 37.5,
                             flavourText = "Staff imbued with a medium amount of arcane power, ideal for students studying the magical arts",
-                            imgURL = "Y5tHLvN",
+                            imgURL = "",
                             name = "Arcane apprentice staff",
                             price = 700
                         },
                         new
                         {
-                            weaponId = 9,
+                            weaponId = 5,
                             abilityDamageModifier = 600.0,
                             attackSpeed = 0.5,
                             attackValue = 70,
                             dps = 35.0,
                             flavourText = "Staff imbued with a large amount of destructive fire magic, dangerous in the hands of an unskilled wizard, deadly in the hands of a skilled one.",
-                            imgURL = "mQbqS1A",
+                            imgURL = "",
                             name = "Staff of destructive oblivion",
                             price = 2900
                         });

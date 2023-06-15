@@ -4,11 +4,14 @@ import * as ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 import { } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider} from 'react-router-dom';
-import { Root } from './Components/Root'
-import { Home } from './Components/Home';
-import { default as ShopAdmin } from './Components/ShopAdmin';
-import { default as Store } from './Components/Store';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { Home } from './Components/pages/Home';
+import { Login } from './Components/pages/Login'
+import { Register } from './Components/pages/Register';
+import { default as ShopAdmin } from './Components/pages/ShopAdmin';
+import { default as Store } from './Components/pages/Store';
+import { Layout } from './Components/layout/Layout';
+import { AuthLoader } from './Components/layout/AuthLoader';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
@@ -17,19 +20,34 @@ const root = ReactDOM.createRoot(container);
 const router = createBrowserRouter([
   {
     path: '',
-    element: <Root />,
-    children:[
+    element: <Layout />,
+    children: [
       {
         path: '',
-        element: <Home />
+        element: <Outlet />,
+        loader: AuthLoader,
+        children: [
+          {
+            path: '',
+            element: <Home />
+          },
+          {
+            path: 'store',
+            element: <Store />
+          },
+          {
+            path: 'admin',
+            element: <ShopAdmin/>
+          }
+        ]
       },
       {
-        path: '/store',
-        element: <Store />
+        path: 'login',
+        element: <Login />
       },
       {
-        path: '/admin',
-        element: <ShopAdmin />
+        path: 'register',
+        element: <Register />
       }
     ]
   }

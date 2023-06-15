@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -13,33 +14,33 @@ namespace backend.Controllers
     [ApiController]
     public class WeaponController : ControllerBase
     {
-        private readonly AuthContext _context;
+        private readonly AuthContext _db;
 
-        public WeaponController(AuthContext context)
+        public WeaponController(AuthContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: api/Weapon
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Weapon>>> GetWeapon()
         {
-          if (_context.Weapon == null)
+          if (_db.Weapon == null)
           {
               return NotFound();
           }
-            return await _context.Weapon.ToListAsync();
+            return await _db.Weapon.ToListAsync();
         }
 
         // GET: api/Weapon/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Weapon>> GetWeapon(int id)
         {
-          if (_context.Weapon == null)
+          if (_db.Weapon == null)
           {
               return NotFound();
           }
-            var weapon = await _context.Weapon.FindAsync(id);
+            var weapon = await _db.Weapon.FindAsync(id);
 
             if (weapon == null)
             {
@@ -52,6 +53,7 @@ namespace backend.Controllers
         // PUT: api/Weapon/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> PutWeapon(int id, Weapon weapon)
         {
             if (id != weapon.weaponId)
@@ -59,11 +61,11 @@ namespace backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(weapon).State = EntityState.Modified;
+            _db.Entry(weapon).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -85,39 +87,40 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Weapon>> PostWeapon(Weapon weapon)
         {
-          if (_context.Weapon == null)
+          if (_db.Weapon == null)
           {
               return Problem("Entity set 'AuthContext.Weapon'  is null.");
           }
-            _context.Weapon.Add(weapon);
-            await _context.SaveChangesAsync();
+            _db.Weapon.Add(weapon);
+            await _db.SaveChangesAsync();
 
             return CreatedAtAction("GetWeapon", new { id = weapon.weaponId }, weapon);
         }
 
         // DELETE: api/Weapon/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> DeleteWeapon(int id)
         {
-            if (_context.Weapon == null)
+            if (_db == null || _db.Weapon == null)
             {
                 return NotFound();
             }
-            var weapon = await _context.Weapon.FindAsync(id);
+            var weapon = await _db.Weapon.FindAsync(id);
             if (weapon == null)
             {
                 return NotFound();
             }
 
-            _context.Weapon.Remove(weapon);
-            await _context.SaveChangesAsync();
+            _db.Weapon.Remove(weapon);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool WeaponExists(int id)
         {
-            return (_context.Weapon?.Any(e => e.weaponId == id)).GetValueOrDefault();
+            return (_db.Weapon?.Any(e => e.weaponId == id)).GetValueOrDefault();
         }
     }
 }

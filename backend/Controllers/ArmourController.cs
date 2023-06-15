@@ -16,33 +16,33 @@ namespace backend.Controllers
     [ApiController]
     public class ArmourController : ControllerBase
     {
-        private readonly AuthContext _context;
+        private readonly AuthContext _db;
 
-        public ArmourController(AuthContext context)
+        public ArmourController(AuthContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: api/Armour
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Armour>>> GetArmour()
         {
-          if (_context.Armour == null)
+          if (_db.Armour == null)
           {
               return NotFound();
           }
-            return await _context.Armour.ToListAsync();
+            return await _db.Armour.ToListAsync();
         }
 
         // GET: api/Armour/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Armour>> GetArmour(int id)
         {
-          if (_context.Armour == null)
+          if (_db.Armour == null)
           {
               return NotFound();
           }
-            var armour = await _context.Armour.FindAsync(id);
+            var armour = await _db.Armour.FindAsync(id);
 
             if (armour == null)
             {
@@ -63,11 +63,11 @@ namespace backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(armour).State = EntityState.Modified;
+            _db.Entry(armour).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -89,12 +89,12 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Armour>> PostArmour(Armour armour)
         {
-          if (_context.Armour == null)
+          if (_db.Armour == null)
           {
               return Problem("Entity set 'AuthContext.Armour'  is null.");
           }
-            _context.Armour.Add(armour);
-            await _context.SaveChangesAsync();
+            _db.Armour.Add(armour);
+            await _db.SaveChangesAsync();
 
             return CreatedAtAction("GetArmour", new { id = armour.armourId }, armour);
         }
@@ -104,25 +104,21 @@ namespace backend.Controllers
         [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> DeleteArmour(int id)
         {
-            if (_context.Armour == null)
-            {
-                return NotFound();
-            }
-            var armour = await _context.Armour.FindAsync(id);
+            var armour = await _db.Armour.FindAsync(id);
             if (armour == null)
             {
                 return NotFound();
             }
 
-            _context.Armour.Remove(armour);
-            await _context.SaveChangesAsync();
+            _db.Armour.Remove(armour);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool ArmourExists(int id)
         {
-            return (_context.Armour?.Any(e => e.armourId == id)).GetValueOrDefault();
+            return (_db.Armour?.Any(e => e.armourId == id)).GetValueOrDefault();
         }
     }
 }

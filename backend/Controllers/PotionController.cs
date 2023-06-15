@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -13,33 +14,33 @@ namespace backend.Controllers
     [ApiController]
     public class PotionController : ControllerBase
     {
-        private readonly AuthContext _context;
+        private readonly AuthContext _db;
 
-        public PotionController(AuthContext context)
+        public PotionController(AuthContext db)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: api/Potion
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Potion>>> GetPotion()
         {
-          if (_context.Potion == null)
+          if (_db.Potion == null)
           {
               return NotFound();
           }
-            return await _context.Potion.ToListAsync();
+            return await _db.Potion.ToListAsync();
         }
 
         // GET: api/Potion/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Potion>> GetPotion(int id)
         {
-          if (_context.Potion == null)
+          if (_db.Potion == null)
           {
               return NotFound();
           }
-            var potion = await _context.Potion.FindAsync(id);
+            var potion = await _db.Potion.FindAsync(id);
 
             if (potion == null)
             {
@@ -52,6 +53,7 @@ namespace backend.Controllers
         // PUT: api/Potion/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> PutPotion(int id, Potion potion)
         {
             if (id != potion.potionId)
@@ -59,11 +61,11 @@ namespace backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(potion).State = EntityState.Modified;
+            _db.Entry(potion).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -85,39 +87,40 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Potion>> PostPotion(Potion potion)
         {
-          if (_context.Potion == null)
+          if (_db.Potion == null)
           {
               return Problem("Entity set 'AuthContext.Potion'  is null.");
           }
-            _context.Potion.Add(potion);
-            await _context.SaveChangesAsync();
+            _db.Potion.Add(potion);
+            await _db.SaveChangesAsync();
 
             return CreatedAtAction("GetPotion", new { id = potion.potionId }, potion);
         }
 
         // DELETE: api/Potion/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> DeletePotion(int id)
         {
-            if (_context.Potion == null)
+            if (_db.Potion == null)
             {
                 return NotFound();
             }
-            var potion = await _context.Potion.FindAsync(id);
+            var potion = await _db.Potion.FindAsync(id);
             if (potion == null)
             {
                 return NotFound();
             }
 
-            _context.Potion.Remove(potion);
-            await _context.SaveChangesAsync();
+            _db.Potion.Remove(potion);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool PotionExists(int id)
         {
-            return (_context.Potion?.Any(e => e.potionId == id)).GetValueOrDefault();
+            return (_db.Potion?.Any(e => e.potionId == id)).GetValueOrDefault();
         }
     }
 }
